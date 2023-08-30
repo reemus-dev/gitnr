@@ -173,3 +173,7 @@ The search command only has one flag, which is `--refresh | -r`. This allows you
 ## Contributing
 
 Open a PR or create an issue with any suggestions. Given this is my first Rust application, veterans will probably spot a lot of things that can be improved, refactored or removed. So feel free to open a PR or issue with any suggestions.
+
+---
+
+Improve your software dev skills by learning from my programming struggles at https://reemus.dev
