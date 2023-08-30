@@ -1,0 +1,38 @@
+version: "3"
+
+tasks:
+  # Versioning
+  version:patch: bash ./scripts/version.sh patch
+  version:minor: bash ./scripts/version.sh minor
+  version:major: bash ./scripts/version.sh major
+
+  # Run app with different options
+  run:create:one: cargo run -- create gh:Rust
+  run:create:many: cargo run -- create gh:Rust gh:Python tt:Django tt:JetBrains
+  run:search: cargo run -- search
+  run:search:watch: task ps:watch -- cargo run -- search
+  run:help: cargo run -- help
+
+  # Run tests and lints
+  test: cargo test
+  lint: cargo clippy --all-targets
+  lint:fix: cargo clippy --all-targets --fix
+
+  # Build the project
+  build:clean: rm -rf ./target/release
+  build:release: cargo build --release && ls -lh target/release/gitnr
+
+  # Analyze project size
+  analyze:fns: cargo bloat --release
+  analyze:deps: cargo bloat --release --crates
+  analyze:compile-time: cargo bloat --time -j 1
+
+  # Utility file watching
+  ps:watch:
+    silent: true
+    cmd: |
+      watchexec \
+        --shell=bash \
+        --restart \
+        --stop-signal SIGTERM \
+        "cargo run -- list"

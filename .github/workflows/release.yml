@@ -1,0 +1,113 @@
+# Inspired by:
+#  https://github.com/open-contracting/cardinal-rs/blob/main/.github/workflows/release.yml
+
+name: Test & Release
+# The name is either "Release vX.X.X" on tag push or the commit message
+run-name: ${{ github.ref_name != 'main' && format('Release - {0}', github.ref_name) || github.event.head_commit.message }}
+on:
+  push:
+    branches: [ "main" ]
+    tags: [ "v[0-9]+.[0-9]+.[0-9]+" ]
+env:
+  APP_NAME: gitnr
+  CARGO_TERM_COLOR: always
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with: { components: "clippy" }
+
+      - name: Setup Cache
+        uses: Swatinem/rust-cache@v2
+        if: github.ref_name == 'main' # Caching doesn't work on tags, so skip it
+        with:
+          cache-targets: "true"
+          cache-on-failure: "true"
+          cache-all-crates: "true"
+
+      - name: Run Clippy
+        run: cargo clippy --all-targets -- -D warnings
+
+      - name: Run Tests
+        run: cargo test --verbose
+
+  setup:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref_name != 'main' # Only run on tag push
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Create Draft Release
+        run: gh release create ${{ github.ref_name }} --verify-tag --draft=true --title="${{ github.ref_name }}"
+        env: { GH_TOKEN: "${{ secrets.GH_ACTIONS_PAT }}" }
+
+  build:
+    needs: setup
+    runs-on: ${{ matrix.runner }}
+    if: github.ref_name != 'main' # Only run on tag push
+    strategy:
+      matrix:
+        include:
+          # == Linux == #
+          - name: linux-amd64
+            runner: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          # == Windows == #
+          - name: win-amd64
+            runner: windows-latest
+            target: x86_64-pc-windows-msvc
+          # == MacOS == #
+          - name: macos-amd64
+            runner: macos-latest
+            target: x86_64-apple-darwin
+          - name: macos-arm64
+            runner: macos-latest
+            target: aarch64-apple-darwin
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with: { targets: "${{ matrix.target }}" }
+
+      - name: Build Binary
+        run: cargo build --verbose --locked --release --target ${{ matrix.target }}
+
+      - name: Release Upload Binary
+        shell: bash
+        env: { GH_TOKEN: "${{ secrets.GH_ACTIONS_PAT }}" }
+        run: |
+          BIN_SUFFIX=""
+          if [[ "${{ matrix.runner }}" == "windows-latest" ]]; then
+            BIN_SUFFIX=".exe"
+          fi
+          
+          BIN_OUTPUT="target/${{ matrix.target }}/release/${APP_NAME}${BIN_SUFFIX}"
+          BIN_RELEASE="${APP_NAME}-${{ matrix.name }}${BIN_SUFFIX}"
+          
+          # Not used as makes it hard to download binary for script setup
+          BIN_RELEASE_VERSIONED="${APP_NAME}-${{ github.ref_name }}-${{ matrix.name }}${BIN_SUFFIX}"
+          
+          cp "${BIN_OUTPUT}" "${BIN_RELEASE}"
+          gh release upload ${{ github.ref_name }} "${BIN_RELEASE}"
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref_name != 'main' # Only run on tag push
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Publish Release
+        run: gh release edit ${{ github.ref_name }} --verify-tag --draft=false
+        env: { GH_TOKEN: "${{ secrets.GH_ACTIONS_PAT }}" }
