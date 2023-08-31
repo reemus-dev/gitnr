@@ -69,7 +69,7 @@ See the [releases page](https://github.com/reemus-dev/gitnr/releases) to downloa
 ### From Source
 
 ```sh
-git clone github.com/reemus-dev/gitnr
+git clone --depth=1 github.com/reemus-dev/gitnr
 cd gitnr
 cargo install --path .
 ```
