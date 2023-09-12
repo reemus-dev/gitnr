@@ -20,7 +20,7 @@ gitnr search
 
 ## Table of Contents
 
-- [Installation](#installation)
+- [Installation](#install--update)
     - [Linux & Mac](#linux--mac)
     - [Windows](#windows)
     - [Binary Download](#binary-download)
@@ -31,11 +31,11 @@ gitnr search
 - [Why This Exists](#why-this-exists)
 - [Contributing](#contributing)
 
-## Installation
+## Install & Update
 
 ### Linux & Mac
 
-Run any of the commands below in your terminal to install the latest version of `gitnr`.
+Run any of the commands below in your terminal to get the latest version of `gitnr`.
 
 **Install system-wide**
 ```sh
