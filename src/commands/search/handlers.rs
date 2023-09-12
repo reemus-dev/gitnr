@@ -4,7 +4,7 @@ use crate::commands::search::state::{UIState, UIStateView};
 use crate::template::list::TemplateList;
 use anyhow::Result;
 use crossterm::event::{
-    Event, KeyCode, KeyEvent, KeyModifiers, MouseButton, MouseEvent, MouseEventKind,
+    Event, KeyCode, KeyEvent, KeyEventKind, KeyModifiers, MouseButton, MouseEvent, MouseEventKind,
 };
 use ratatui::backend::CrosstermBackend;
 use std::io::Stderr;
@@ -17,6 +17,12 @@ pub fn handle_key_events(
     app: &mut UIState,
     tui: &mut Tui<CrosstermBackend<Stderr>>,
 ) -> Result<()> {
+    // Ignore release events to prevent executing the same action twice
+    // [Issue] https://github.com/reemus-dev/gitnr/issues/3
+    if event.kind == KeyEventKind::Release {
+        return Ok(());
+    }
+
     let is_shift = event.modifiers == KeyModifiers::SHIFT;
     let is_ctrl = event.modifiers == KeyModifiers::CONTROL;
     let is_c = event.code == KeyCode::Char('c') || event.code == KeyCode::Char('C');

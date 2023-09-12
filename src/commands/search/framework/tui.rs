@@ -2,7 +2,10 @@ use crate::commands::search::framework::event::EventHandler;
 use crate::commands::search::state::UIState;
 use crate::commands::search::views::render;
 use anyhow::Result;
-use crossterm::event::{DisableMouseCapture, EnableMouseCapture};
+use crossterm::event::{
+    DisableMouseCapture, EnableMouseCapture, KeyboardEnhancementFlags, PopKeyboardEnhancementFlags,
+    PushKeyboardEnhancementFlags,
+};
 use crossterm::terminal::{self, EnterAlternateScreen, LeaveAlternateScreen};
 use ratatui::backend::Backend;
 use ratatui::Terminal;
@@ -32,7 +35,13 @@ impl<B: Backend> Tui<B> {
     /// It enables the raw mode and sets terminal properties.
     pub fn init(&mut self) -> Result<()> {
         terminal::enable_raw_mode()?;
-        crossterm::execute!(io::stderr(), EnterAlternateScreen, EnableMouseCapture)?;
+        crossterm::execute!(
+            io::stderr(),
+            EnterAlternateScreen,
+            EnableMouseCapture,
+            // Keyboard event types are only reported on Windows by default, enable them on Unix too
+            PushKeyboardEnhancementFlags(KeyboardEnhancementFlags::REPORT_EVENT_TYPES)
+        )?;
 
         // Define a custom panic hook to reset the terminal properties.
         // This way, you won't have your terminal messed up if an unexpected error happens.
@@ -67,7 +76,12 @@ impl<B: Backend> Tui<B> {
     /// the terminal properties if unexpected errors occur.
     fn reset() -> Result<()> {
         terminal::disable_raw_mode()?;
-        crossterm::execute!(io::stdout(), LeaveAlternateScreen, DisableMouseCapture)?;
+        crossterm::execute!(
+            io::stdout(),
+            LeaveAlternateScreen,
+            DisableMouseCapture,
+            PopKeyboardEnhancementFlags
+        )?;
         Ok(())
     }
 
