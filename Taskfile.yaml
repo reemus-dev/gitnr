@@ -35,4 +35,4 @@ tasks:
         --shell=bash \
         --restart \
         --stop-signal SIGTERM \
-        "cargo run -- list"
+        "{{.CLI_ARGS}}"
