@@ -58,6 +58,7 @@ pub fn render_preview<B: Backend>(app: &mut UIState, f: &mut Frame<'_, B>) -> Re
                 .orientation(ScrollbarOrientation::VerticalRight)
                 .begin_symbol(Some(""))
                 .end_symbol(Some(""))
+                .thumb_style(Style::new().on_light_yellow())
                 .track_symbol("-") // ─
                 .thumb_symbol("░"); //
 
