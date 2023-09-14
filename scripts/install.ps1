@@ -2,14 +2,14 @@ $ErrorActionPreference = "Stop"
 
 # Define app-specific details
 $name = "gitnr"
-$repo="reemus-dev/$NAME"
-$version="latest"
 $binary="$name.exe"
-$downloadBaseUrl="https://github.com/$REPO/releases/download/$VERSION"
+$version="latest"
+$githubRepo="reemus-dev/$name"
+$downloadBaseUrl="https://github.com/$githubRepo/releases/download/$version"
 
 if ($version -eq "latest") {
   # The latest version is accessible from a slightly different URL
-  $downloadBaseUrl="https://github.com/$REPO/releases/latest/download"
+  $downloadBaseUrl="https://github.com/$githubRepo/releases/latest/download"
 }
 
 # Determine system architecture
