@@ -3,13 +3,14 @@ name = "gitnr"
 version = "0.1.1"
 edition = "2021"
 license = "MIT"
+readme = "readme.md"
 authors = ["Tarun Ramesh <reemus.dev>"]
 homepage = "https://github.com/reemus-dev/gitnr"
 repository = "https://github.com/reemus-dev/gitnr"
 description = "A CLI to generate '.gitignore' files using one or more templates"
-include = ["src/**/*", "CHANGELOG.md", "LICENSE", "readme.md"]
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+include = ["src/**/*", "LICENSE", "readme.md"]
+keywords = ["git", "gitignore", "cli"]
+categories = ["development-tools", "command-line-utilities"]
 
 [dependencies]
 anyhow = "1.0.74"
