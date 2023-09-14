@@ -23,6 +23,8 @@ gitnr search
 - [Installation](#install--update)
     - [Linux & Mac](#linux--mac)
     - [Windows](#windows)
+    - [Cargo](#cargo)
+    - [Cargo Binstall](#cargo-binstall)
     - [Binary Download](#binary-download)
     - [From Source](#from-source)
 - [Usage](#usage)
@@ -60,6 +62,22 @@ Run the command below in a PowerShell terminal to install the latest version of 
 
 ```powershell
 Set-ExecutionPolicy Unrestricted -Scope Process; iex (iwr "https://raw.githubusercontent.com/reemus-dev/gitnr/main/scripts/install.ps1").Content
+```
+
+### Cargo
+
+Install and compile the latest version from crates.io with the command below.
+
+```sh
+cargo install gitnr
+```
+
+### Cargo Binstall
+
+Install the binary directly using `cargo-binstall`.
+
+```sh
+cargo-binstall gitnr
 ```
 
 ### Binary Download
