@@ -203,7 +203,7 @@ impl Template {
     /// Returns the title section of the template content
     pub fn content_title(&self) -> Result<String> {
         let title = format!("###  {}  ###", self.value.title()?);
-        let seperator = "-".repeat(title.len() - 4);
+        let seperator = "-".repeat(title.len() - 6);
         Ok(formatdoc! {"
             ###{seperator}###
             {title}
