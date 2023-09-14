@@ -35,13 +35,20 @@ impl<B: Backend> Tui<B> {
     /// It enables the raw mode and sets terminal properties.
     pub fn init(&mut self) -> Result<()> {
         terminal::enable_raw_mode()?;
-        crossterm::execute!(
-            io::stderr(),
-            EnterAlternateScreen,
-            EnableMouseCapture,
-            // Keyboard event types are only reported on Windows by default, enable them on Unix too
-            PushKeyboardEnhancementFlags(KeyboardEnhancementFlags::REPORT_EVENT_TYPES)
-        )?;
+
+        if cfg!(target_family = "unix") {
+            // Keyboard event types are only reported on Windows by default, enable on Unix too
+            crossterm::execute!(
+                io::stderr(),
+                EnterAlternateScreen,
+                EnableMouseCapture,
+                PushKeyboardEnhancementFlags(KeyboardEnhancementFlags::REPORT_EVENT_TYPES)
+            )?;
+        } else {
+            // Don't add the keyboard enhancement flags on Windows, as it produces error:
+            // - Keyboard progressive enhancement not implemented for the legacy Windows API.
+            crossterm::execute!(io::stderr(), EnterAlternateScreen, EnableMouseCapture)?;
+        }
 
         // Define a custom panic hook to reset the terminal properties.
         // This way, you won't have your terminal messed up if an unexpected error happens.
@@ -76,12 +83,16 @@ impl<B: Backend> Tui<B> {
     /// the terminal properties if unexpected errors occur.
     fn reset() -> Result<()> {
         terminal::disable_raw_mode()?;
-        crossterm::execute!(
-            io::stdout(),
-            LeaveAlternateScreen,
-            DisableMouseCapture,
-            PopKeyboardEnhancementFlags
-        )?;
+        if cfg!(target_family = "unix") {
+            crossterm::execute!(
+                io::stdout(),
+                LeaveAlternateScreen,
+                DisableMouseCapture,
+                PopKeyboardEnhancementFlags
+            )?;
+        } else {
+            crossterm::execute!(io::stdout(), LeaveAlternateScreen, DisableMouseCapture)?;
+        }
         Ok(())
     }
 
