@@ -13,6 +13,7 @@ env:
   CARGO_TERM_COLOR: always
 jobs:
   test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -37,6 +38,7 @@ jobs:
         run: cargo test --verbose
 
   setup:
+    name: Setup
     needs: test
     runs-on: ubuntu-latest
     if: github.ref_name != 'main' # Only run on tag push
@@ -49,6 +51,7 @@ jobs:
         env: { GH_TOKEN: "${{ secrets.GH_ACTIONS_PAT }}" }
 
   build:
+    name: Build
     needs: setup
     runs-on: ${{ matrix.runner }}
     if: github.ref_name != 'main' # Only run on tag push
@@ -100,7 +103,8 @@ jobs:
           cp "${BIN_OUTPUT}" "${BIN_RELEASE}"
           gh release upload ${{ github.ref_name }} "${BIN_RELEASE}"
 
-  publish:
+  release:
+    name: Release
     needs: build
     runs-on: ubuntu-latest
     if: github.ref_name != 'main' # Only run on tag push
@@ -108,6 +112,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Publish Release
+      - name: Publish GitHub Release
         run: gh release edit ${{ github.ref_name }} --verify-tag --draft=false
         env: { GH_TOKEN: "${{ secrets.GH_ACTIONS_PAT }}" }
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      # This step takes place only after GH release to ensure binaries are available via cargo-binstall
+      - name: Publish Crates.io Release
+        run: cargo publish --verbose --locked --token ${{ secrets.CARGO_REGISTRY_TOKEN }}
