@@ -36,7 +36,7 @@ strip = true
 opt-level = "z"
 
 [package.metadata.binstall]
-pkg-url = "{ repo }/releases/download/v{ version }/{ name }-{ target }"
+pkg-url = "{ repo }/releases/download/v{ version }/{ name }-{ target }{ archive-suffix }"
 bin-dir = "{ name }-{ target }-v{ version }/{ name }{ binary-ext }"
 pkg-fmt = "bin"
 
@@ -44,7 +44,7 @@ pkg-fmt = "bin"
 pkg-url = "{ repo }/releases/download/v{ version }/{ name }-linux-amd64"
 
 [package.metadata.binstall.overrides.x86_64-pc-windows-msvc]
-pkg-url = "{ repo }/releases/download/v{ version }/{ name }-win-amd64"
+pkg-url = "{ repo }/releases/download/v{ version }/{ name }-win-amd64.exe"
 
 [package.metadata.binstall.overrides.x86_64-apple-darwin]
 pkg-url = "{ repo }/releases/download/v{ version }/{ name }-macos-amd64"
