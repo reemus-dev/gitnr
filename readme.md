@@ -6,7 +6,7 @@ A cross-platform CLI utility to create `.gitignore` files using templates.
 - Use local files and remote URLs as templates
 - Filter out duplicate ignore lines when using multiple templates
 - Interactive mode to search and select templates
-- Cross-platform support (Windows, macOS, Linux)
+- Cross-platform support (Windows, macOS, Linux, NetBSD)
 
 ```sh
 # Create an ignore file for Rust with CLion IDE
@@ -26,6 +26,7 @@ gitnr search
     - [Cargo](#cargo)
     - [Cargo Binstall](#cargo-binstall)
     - [Binary Download](#binary-download)
+    - [NetBSD](#NetBSD)
     - [From Source](#from-source)
 - [Usage](#usage)
     - [Create](#create)
@@ -83,6 +84,13 @@ cargo-binstall gitnr
 ### Binary Download
 
 See the [releases page](https://github.com/reemus-dev/gitnr/releases) to download a binary and then add it to a directory in your system path.
+
+### NetBSD
+
+On NetBSD a pre-compiled binary is available from the official repositories. To install it, simply run:
+```sh
+pkgin install gitnr
+```
 
 ### From Source
 
