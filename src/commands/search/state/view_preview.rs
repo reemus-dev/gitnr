@@ -55,7 +55,7 @@ impl UIStatePreview {
         };
 
         let scroll_pos = 0;
-        let scroll_state = ScrollbarState::default().content_length(content_lines);
+        let scroll_state = ScrollbarState::default().content_length(content_lines.into());
 
         Ok(Self {
             state,
@@ -78,13 +78,13 @@ impl UIStatePreview {
     /// Scrolls to the bottom of the preview content
     pub fn scroll_to_bottom(&mut self) {
         self.scroll_pos = self.content_lines.saturating_sub(1);
-        self.scroll_state = self.scroll_state.position(self.scroll_pos);
+        self.scroll_state = self.scroll_state.position(self.scroll_pos.into());
     }
 
     /// Scrolls to the preview content up one increment
     pub fn scroll_up(&mut self) {
         self.scroll_pos = self.scroll_pos.saturating_sub(1);
-        self.scroll_state = self.scroll_state.position(self.scroll_pos);
+        self.scroll_state = self.scroll_state.position(self.scroll_pos.into());
     }
 
     /// Scrolls to the preview content down one increment
@@ -93,7 +93,7 @@ impl UIStatePreview {
             .scroll_pos
             .saturating_add(1)
             .clamp(0, self.content_lines.saturating_sub(1));
-        self.scroll_state = self.scroll_state.position(self.scroll_pos);
+        self.scroll_state = self.scroll_state.position(self.scroll_pos.into());
     }
 
     /// Copies the preview content to the clipboard

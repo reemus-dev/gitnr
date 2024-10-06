@@ -2,12 +2,12 @@ use crate::commands::search::framework::event::EventHandler;
 use crate::commands::search::state::UIState;
 use crate::commands::search::views::render;
 use anyhow::Result;
-use crossterm::event::{
+use ratatui::backend::Backend;
+use ratatui::crossterm::event::{
     DisableMouseCapture, EnableMouseCapture, KeyboardEnhancementFlags, PopKeyboardEnhancementFlags,
     PushKeyboardEnhancementFlags,
 };
-use crossterm::terminal::{self, EnterAlternateScreen, LeaveAlternateScreen};
-use ratatui::backend::Backend;
+use ratatui::crossterm::terminal::{self, EnterAlternateScreen, LeaveAlternateScreen};
 use ratatui::Terminal;
 use std::io;
 use std::panic;
@@ -38,7 +38,7 @@ impl<B: Backend> Tui<B> {
 
         if cfg!(target_family = "unix") {
             // Keyboard event types are only reported on Windows by default, enable on Unix too
-            crossterm::execute!(
+            ratatui::crossterm::execute!(
                 io::stderr(),
                 EnterAlternateScreen,
                 EnableMouseCapture,
@@ -47,7 +47,7 @@ impl<B: Backend> Tui<B> {
         } else {
             // Don't add the keyboard enhancement flags on Windows, as it produces error:
             // - Keyboard progressive enhancement not implemented for the legacy Windows API.
-            crossterm::execute!(io::stderr(), EnterAlternateScreen, EnableMouseCapture)?;
+            ratatui::crossterm::execute!(io::stderr(), EnterAlternateScreen, EnableMouseCapture)?;
         }
 
         // Define a custom panic hook to reset the terminal properties.
@@ -84,14 +84,14 @@ impl<B: Backend> Tui<B> {
     fn reset() -> Result<()> {
         terminal::disable_raw_mode()?;
         if cfg!(target_family = "unix") {
-            crossterm::execute!(
+            ratatui::crossterm::execute!(
                 io::stdout(),
                 LeaveAlternateScreen,
                 DisableMouseCapture,
                 PopKeyboardEnhancementFlags
             )?;
         } else {
-            crossterm::execute!(io::stdout(), LeaveAlternateScreen, DisableMouseCapture)?;
+            ratatui::crossterm::execute!(io::stdout(), LeaveAlternateScreen, DisableMouseCapture)?;
         }
         Ok(())
     }

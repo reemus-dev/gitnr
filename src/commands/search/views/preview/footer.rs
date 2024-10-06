@@ -1,12 +1,11 @@
 use indoc::formatdoc;
-use ratatui::backend::Backend;
 use ratatui::layout::{Constraint, Direction, Layout, Rect};
 use ratatui::style::{Style, Stylize};
 use ratatui::widgets::{Block, Padding, Paragraph};
 use ratatui::{text, Frame};
 
 /// Renders the preview footer (help section)
-pub fn render_preview_footer<B: Backend>(f: &mut Frame<'_, B>, chunk: Rect) -> anyhow::Result<()> {
+pub fn render_preview_footer(f: &mut Frame, chunk: Rect) -> anyhow::Result<()> {
     let chunks = Layout::default()
         .direction(Direction::Horizontal)
         .constraints([

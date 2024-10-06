@@ -1,8 +1,7 @@
 use crate::commands::search::state::collection::UICollectionSelection;
 use crate::commands::search::state::UIState;
 use crate::commands::search::views::util;
-use ratatui::backend::Backend;
-use ratatui::layout::{Constraint, Layout, Rect};
+use ratatui::layout::{Constraint, Layout, Position, Rect};
 use ratatui::style::{Color, Style, Stylize};
 use ratatui::widgets::block::Title;
 use ratatui::widgets::{Block, BorderType, Borders, List, ListItem, Padding, Paragraph};
@@ -59,11 +58,7 @@ fn create_selected<'a>(
 }
 
 /// Render the right sidebar of the home view (filter input & selected templates)
-pub fn render_home_main_side<B: Backend>(
-    app: &mut UIState,
-    f: &mut Frame<'_, B>,
-    chunk: Rect,
-) -> anyhow::Result<()> {
+pub fn render_home_main_side(app: &mut UIState, f: &mut Frame, chunk: Rect) -> anyhow::Result<()> {
     let chunks = Layout::default()
         .constraints(vec![Constraint::Length(3), Constraint::Min(0)])
         .split(chunk);
@@ -82,12 +77,12 @@ pub fn render_home_main_side<B: Backend>(
     f.render_widget(selected_widget, bottom);
 
     if is_filtering {
-        f.set_cursor(
+        f.set_cursor_position(Position::new(
             // Put cursor past the end of the input text
             top.x + app.collection_filter.visual_cursor() as u16 + 2,
             // Move one line down, from the border to the input line
             top.y + 1,
-        )
+        ))
     }
 
     Ok(())

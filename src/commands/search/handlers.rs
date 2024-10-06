@@ -3,10 +3,10 @@ use crate::commands::search::state::view_preview::{UIStatePreview, UIStatePrevie
 use crate::commands::search::state::{UIState, UIStateView};
 use crate::template::list::TemplateList;
 use anyhow::Result;
-use crossterm::event::{
+use ratatui::backend::CrosstermBackend;
+use ratatui::crossterm::event::{
     Event, KeyCode, KeyEvent, KeyEventKind, KeyModifiers, MouseButton, MouseEvent, MouseEventKind,
 };
-use ratatui::backend::CrosstermBackend;
 use std::io::Stderr;
 use std::time::{Duration, Instant};
 use tui_input::backend::crossterm::EventHandler;

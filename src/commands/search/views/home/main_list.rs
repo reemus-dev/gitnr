@@ -2,7 +2,6 @@ use crate::commands::search::state::collection::UICollectionSelection;
 use crate::commands::search::state::UIState;
 use crate::commands::search::views::util;
 use crate::template::item::Template;
-use ratatui::backend::Backend;
 use ratatui::layout::Rect;
 use ratatui::style::{Color, Modifier, Style, Stylize};
 use ratatui::widgets::{Block, BorderType, Borders, List, ListItem, ListState, Padding};
@@ -47,11 +46,7 @@ fn create_list<'a>(
 }
 
 /// Renders the main collection templates list
-pub fn render_home_main_list<B: Backend>(
-    app: &mut UIState,
-    f: &mut Frame<'_, B>,
-    chunk: Rect,
-) -> anyhow::Result<()> {
+pub fn render_home_main_list(app: &mut UIState, f: &mut Frame, chunk: Rect) -> anyhow::Result<()> {
     let list = app.collection();
     let state = &mut list.state.lock().unwrap();
     let widget = create_list(&list.values, state, &app.selected.lock().unwrap())?;

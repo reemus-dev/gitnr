@@ -9,12 +9,11 @@ use crate::commands::search::views::home::header::render_home_header;
 use crate::commands::search::views::home::main_list::render_home_main_list;
 use crate::commands::search::views::home::main_side::render_home_main_side;
 use anyhow::{bail, Result};
-use ratatui::backend::Backend;
 use ratatui::layout::{Constraint, Direction, Layout};
 use ratatui::Frame;
 
 /// Renders the main home UI
-pub fn render_home<B: Backend>(app: &mut UIState, f: &mut Frame<'_, B>) -> Result<()> {
+pub fn render_home(app: &mut UIState, f: &mut Frame) -> Result<()> {
     match &mut app.view {
         UIStateView::Home => {
             // let app = Mutex::new(app);
@@ -27,7 +26,7 @@ pub fn render_home<B: Backend>(app: &mut UIState, f: &mut Frame<'_, B>) -> Resul
                 ])
                 .vertical_margin(0)
                 .horizontal_margin(1)
-                .split(f.size());
+                .split(f.area());
 
             let main = Layout::default()
                 .direction(Direction::Horizontal)
