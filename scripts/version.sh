@@ -47,7 +47,9 @@ fi
 # Update version in Cargo.toml and commit it
 # =================================================================
 
-sed -i "s/^version = .*/version = \"$VERSION_NEXT\"/" Cargo.toml
+# echo "Next: $VERSION_NEXT"
+# sed -i "s/^version = .*/version = \"$VERSION_NEXT\"/" Cargo.toml
+sed -i '' "s/^version = .*/version = \"$VERSION_NEXT\"/" Cargo.toml
 cargo generate-lockfile # Update version in Cargo.lock
 git add .
 git commit -m "build: bump version to v$VERSION_NEXT"
