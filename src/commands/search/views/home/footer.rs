@@ -1,17 +1,12 @@
 use crate::commands::search::state::UIState;
 use indoc::formatdoc;
-use ratatui::backend::Backend;
 use ratatui::layout::{Constraint, Direction, Layout, Rect};
 use ratatui::style::{Style, Stylize};
 use ratatui::widgets::{Block, Padding, Paragraph};
 use ratatui::{text, Frame};
 
 /// Renders the home UI footer (help section)
-pub fn render_home_footer<B: Backend>(
-    _app: &mut UIState,
-    f: &mut Frame<'_, B>,
-    chunk: Rect,
-) -> anyhow::Result<()> {
+pub fn render_home_footer(_app: &mut UIState, f: &mut Frame, chunk: Rect) -> anyhow::Result<()> {
     let chunks = Layout::default()
         .direction(Direction::Horizontal)
         .constraints([

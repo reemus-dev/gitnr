@@ -1,5 +1,4 @@
 use crate::commands::search::state::UIState;
-use ratatui::backend::Backend;
 use ratatui::layout::{Constraint, Direction, Layout, Rect};
 use ratatui::style::{Color, Style, Stylize};
 use ratatui::symbols::DOT;
@@ -27,11 +26,7 @@ fn create_tabs<'a>(tab_titles: Vec<String>, list_tab: usize) -> anyhow::Result<T
 }
 
 /// Renders the home view header (collection tabs)
-pub fn render_home_header<B: Backend>(
-    app: &mut UIState,
-    f: &mut Frame<'_, B>,
-    chunk: Rect,
-) -> anyhow::Result<()> {
+pub fn render_home_header(app: &mut UIState, f: &mut Frame, chunk: Rect) -> anyhow::Result<()> {
     let chunks = Layout::default()
         .direction(Direction::Horizontal)
         .constraints([

@@ -5,7 +5,6 @@ use crate::commands::search::state::{UIState, UIStateView};
 use crate::commands::search::views::preview::footer::render_preview_footer;
 use crate::commands::search::views::util::rect_center;
 use anyhow::{bail, Result};
-use ratatui::backend::Backend;
 use ratatui::layout::{Constraint, Layout};
 use ratatui::style::{Style, Stylize};
 use ratatui::text::{Line, Text};
@@ -15,10 +14,10 @@ use ratatui::widgets::{
 use ratatui::{text, Frame};
 
 /// Renders the preview view
-pub fn render_preview<B: Backend>(app: &mut UIState, f: &mut Frame<'_, B>) -> Result<()> {
+pub fn render_preview(app: &mut UIState, f: &mut Frame) -> Result<()> {
     match &mut app.view {
         UIStateView::Preview(ref mut p) => {
-            let size = f.size();
+            let size = f.area();
             let title = text::Span::from(p.title.as_str()).bold().white();
 
             let layout = Layout::default()
@@ -59,7 +58,7 @@ pub fn render_preview<B: Backend>(app: &mut UIState, f: &mut Frame<'_, B>) -> Re
                 .begin_symbol(Some(""))
                 .end_symbol(Some(""))
                 .thumb_style(Style::new().on_light_yellow())
-                .track_symbol("-") // ─
+                .track_symbol(Some("-")) // ─
                 .thumb_symbol("░"); //
 
             f.render_widget(content, layout[1]);
