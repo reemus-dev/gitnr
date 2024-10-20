@@ -5,7 +5,7 @@ use clap::{Args, Parser, Subcommand};
 use once_cell::sync::Lazy;
 
 const LONG_ABOUT: &str = r"
-‎
+
 ――――――――――――――――――――――――――――――――――――――――――――
                   gitnr
 ――――――――――――――――――――――――――――――――――――――――――――
@@ -37,7 +37,7 @@ pub struct CommandCreate {
     pub out_file: Option<String>,
     /// Space or comma separated list of templates to use. Templates can be prefixed with
     /// the provider name to avoid any ambiguity.
-    /// ‎
+    ///
     /// Providers:
     ///  - "gh:"    GitHub templates
     ///  - "ghc:"   GitHub community templates
@@ -46,12 +46,12 @@ pub struct CommandCreate {
     ///  - "url:"   Remote URL to text file template
     ///  - "file:"  Local file path to a .gitignore file
     ///  - "repo:"  File from a any public GitHub repo
-    /// ‎
+    ///
     /// If no prefix is specified, program will attempt to guess the provider if possible
     /// otherwise it will default to a GitHub template. The template name is case-sensitive.
     /// Meaning "Rust" is not the same as "rust". The order in which the templates are provided
     /// is the order in output content will be.
-    /// ‎
+    ///
     /// Examples:
     ///  - gitnr create Rust
     ///  - gitnr create gh:Rust
