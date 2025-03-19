@@ -15,6 +15,7 @@ categories = ["development-tools", "command-line-utilities"]
 [dependencies]
 anyhow = "1.0.89"
 clap = { version = "4.5.20", features = ["derive"] }
+clap_complete = "^4.5"
 copypasta = "0.8.2"
 dirs = "5.0.1"
 human-panic = "2.0.2"
@@ -25,7 +26,10 @@ ratatui = "0.28.1"
 serde = { version = "1.0.210", features = ["default", "derive"] }
 serde_json = "1.0.128"
 tui-input = "0.10.1"
-ureq = { version = "2.10.1", features = ["gzip", "native-tls"], default-features = false }
+ureq = { version = "2.10.1", features = [
+  "gzip",
+  "native-tls",
+], default-features = false }
 url = "2.5.2"
 yansi = "1.0.1"
 
@@ -53,16 +57,16 @@ pkg-url = "{ repo }/releases/download/v{ version }/{ name }-macos-arm64"
 
 [package.metadata.cross.target.x86_64-unknown-linux-gnu]
 pre-build = [
-    "dpkg --add-architecture $CROSS_DEB_ARCH",
-    "apt-get update && apt-get --assume-yes install pkg-config libssl-dev:$CROSS_DEB_ARCH"
+  "dpkg --add-architecture $CROSS_DEB_ARCH",
+  "apt-get update && apt-get --assume-yes install pkg-config libssl-dev:$CROSS_DEB_ARCH",
 ]
 [package.metadata.cross.target.i686-unknown-linux-gnu]
 pre-build = [
-    "dpkg --add-architecture $CROSS_DEB_ARCH",
-    "apt-get update && apt-get --assume-yes install pkg-config libssl-dev:$CROSS_DEB_ARCH"
+  "dpkg --add-architecture $CROSS_DEB_ARCH",
+  "apt-get update && apt-get --assume-yes install pkg-config libssl-dev:$CROSS_DEB_ARCH",
 ]
 [package.metadata.cross.target.aarch64-unknown-linux-gnu]
 pre-build = [
-    "dpkg --add-architecture $CROSS_DEB_ARCH",
-    "apt-get update && apt-get --assume-yes install pkg-config libssl-dev:$CROSS_DEB_ARCH"
+  "dpkg --add-architecture $CROSS_DEB_ARCH",
+  "apt-get update && apt-get --assume-yes install pkg-config libssl-dev:$CROSS_DEB_ARCH",
 ]
