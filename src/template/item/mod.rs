@@ -223,7 +223,7 @@ impl Template {
             }
             _ => {
                 let url = self.value.url()?;
-                return match TemplateCache::get(&url)? {
+                match TemplateCache::get(&url)? {
                     Some(content) => Ok(content),
                     None => {
                         let content: String = http().get(&url)
@@ -239,7 +239,7 @@ impl Template {
                         TemplateCache::set(&url, content)?;
                         Ok(content.to_string())
                     }
-                };
+                }
             }
         }
     }
