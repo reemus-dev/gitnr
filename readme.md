@@ -27,6 +27,7 @@ gitnr search
     - [Cargo Binstall](#cargo-binstall)
     - [Binary Download](#binary-download)
     - [NetBSD](#NetBSD)
+    - [Homebrew](#homebrew)
     - [From Source](#from-source)
 - [Usage](#usage)
     - [Create](#create)
@@ -90,6 +91,13 @@ See the [releases page](https://github.com/reemus-dev/gitnr/releases) to downloa
 On NetBSD a pre-compiled binary is available from the official repositories. To install it, simply run:
 ```sh
 pkgin install gitnr
+```
+
+### Homebrew
+
+You can also install the latest version using Homebrew:
+```sh
+brew install gitnr
 ```
 
 ### From Source
