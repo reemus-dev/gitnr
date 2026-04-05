@@ -9,7 +9,7 @@ use ratatui::Frame;
 use std::sync::MutexGuard;
 
 /// Create the filter input widget
-fn create_filter_input(app: &mut UIState) -> anyhow::Result<Paragraph> {
+fn create_filter_input(app: &mut UIState) -> anyhow::Result<Paragraph<'_>> {
     let input = &app.collection_filter;
     let is_filtering = app.list_is_filtering();
     let title = util::title_string("Filter".into());
