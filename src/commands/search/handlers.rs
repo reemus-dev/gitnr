@@ -209,7 +209,7 @@ pub fn handle_mouse_events(event: MouseEvent, app: &mut UIState) -> Result<()> {
             MouseEventKind::ScrollDown => {
                 if now.duration_since(app.last_scroll_time) > Duration::from_millis(15) {
                     app.list_next(if is_shift || is_alt {
-                        println!("Scrolling {} {}", is_shift, is_alt);
+                        println!("Scrolling {is_shift} {is_alt}");
                         Some(10)
                     } else {
                         Some(1)

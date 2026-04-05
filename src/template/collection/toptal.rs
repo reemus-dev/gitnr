@@ -50,7 +50,7 @@ impl TopTalTemplates {
 
     /// Fetch the templates from the TopTal API
     fn fetch() -> Result<Self> {
-        let url = format!("{}/list?format=lines", TOPTAL_API);
+        let url = format!("{TOPTAL_API}/list?format=lines");
 
         let list = http()
             .get(&url)
@@ -61,7 +61,7 @@ impl TopTalTemplates {
 
         let templates = list
             .lines()
-            .map(|s| Template::new(&format!("tt:{}", s)))
+            .map(|s| Template::new(&format!("tt:{s}")))
             .collect::<Result<Vec<Template>>>()?;
 
         let updated = SystemTime::now();

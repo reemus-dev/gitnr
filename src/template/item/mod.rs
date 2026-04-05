@@ -128,7 +128,7 @@ impl TemplateValue {
             Self::Url(_) => {
                 let url = self.name()?;
                 let url = Url::parse(&url)
-                    .with_context(|| format!("[Ignore Template] Invalid URL: {}", url))?;
+                    .with_context(|| format!("[Ignore Template] Invalid URL: {url}"))?;
                 Ok(url.to_string())
             }
             Self::File(_) => {
@@ -143,33 +143,31 @@ impl TemplateValue {
             }
             Self::GitHubRepo(_) => {
                 let repo = self.name()?;
-                let url = format!("{}/{}", GITHUB_RAW, repo);
+                let url = format!("{GITHUB_RAW}/{repo}");
                 Ok(url)
             }
             Self::GitHubGlobal(_) => {
                 let repo = self.name()?;
                 let url = format!(
-                    "{}/github/gitignore/main/Global/{}.gitignore",
-                    GITHUB_RAW, repo
+                    "{GITHUB_RAW}/github/gitignore/main/Global/{repo}.gitignore"
                 );
                 Ok(url)
             }
             Self::GitHubCommunity(_) => {
                 let repo = self.name()?;
                 let url = format!(
-                    "{}/github/gitignore/main/community/{}.gitignore",
-                    GITHUB_RAW, repo
+                    "{GITHUB_RAW}/github/gitignore/main/community/{repo}.gitignore"
                 );
                 Ok(url)
             }
             Self::GitHub(_) => {
                 let repo = self.name()?;
-                let url = format!("{}/github/gitignore/main/{}.gitignore", GITHUB_RAW, repo);
+                let url = format!("{GITHUB_RAW}/github/gitignore/main/{repo}.gitignore");
                 Ok(url)
             }
             Self::TopTal(_) => {
                 let name = self.name()?;
-                let url = format!("{}/{}", TOPTAL_API, name);
+                let url = format!("{TOPTAL_API}/{name}");
                 Ok(url)
             }
         }
@@ -217,29 +215,29 @@ impl Template {
             TemplateValue::File(_) => {
                 let path = self.value.url()?;
                 let content = fs::read_to_string(&path).with_context(|| {
-                    format!("Failed to read ignore file template at path\n{}", path)
+                    format!("Failed to read ignore file template at path\n{path}")
                 })?;
                 Ok(content)
             }
             _ => {
                 let url = self.value.url()?;
-                return match TemplateCache::get(&url)? {
+                match TemplateCache::get(&url)? {
                     Some(content) => Ok(content),
                     None => {
                         let content: String = http().get(&url)
                             .call()
                             .with_context(|| {
-                                format!("Failed to fetch ignore template at URL. The template might not exist...\n{}", url)
+                                format!("Failed to fetch ignore template at URL. The template might not exist...\n{url}")
                             })?
                             .into_string()
                             .with_context(|| {
-                                format!("Failed to parse response when fetching ignore template at URL\n{}", url)
+                                format!("Failed to parse response when fetching ignore template at URL\n{url}")
                             })?;
                         let content = content.trim();
                         TemplateCache::set(&url, content)?;
                         Ok(content.to_string())
                     }
-                };
+                }
             }
         }
     }

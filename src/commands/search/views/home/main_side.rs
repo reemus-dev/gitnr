@@ -36,7 +36,7 @@ fn create_selected<'a>(
         .map(|s| {
             let name = s.template.value.name().unwrap();
             let prefix = s.kind.name();
-            ListItem::new(format!("{} - {}", prefix, name))
+            ListItem::new(format!("{prefix} - {name}"))
         })
         .collect();
 

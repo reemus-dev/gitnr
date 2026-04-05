@@ -72,7 +72,7 @@ pub fn command(cmd: &CommandCreate) -> Result<()> {
     }
 
     // Print template to stdout
-    println!("{}", output);
+    println!("{output}");
 
     Ok(())
 }

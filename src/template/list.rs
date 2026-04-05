@@ -75,6 +75,6 @@ impl TemplateList {
 
         let cmds = cmds.join(" ");
 
-        Ok(format!("gitnr create {}", cmds).trim().to_string())
+        Ok(format!("gitnr create {cmds}").trim().to_string())
     }
 }

@@ -2,6 +2,7 @@ use crate::template::item::Template;
 use crate::template::list::TemplateList;
 use anyhow::{bail, Context, Result};
 use clap::{Args, Parser, Subcommand};
+use clap_complete::Shell;
 use once_cell::sync::Lazy;
 
 const LONG_ABOUT: &str = r"
@@ -66,6 +67,11 @@ pub enum Commands {
     Create(CommandCreate),
     /// Choose templates interactively from the GitHub & TopTal collections
     Search,
+    /// Generate completions to stdout
+    Completions {
+        /// Specify desired shell
+        shell: Shell,
+    },
 }
 
 impl Cli {
@@ -75,6 +81,9 @@ impl Cli {
             Some(Commands::Create(args)) => &args.templates,
             Some(Commands::Search) => {
                 bail!("Cannot provide template arguments to 'search' command")
+            }
+            Some(Commands::Completions { shell: _ }) => {
+                bail!("Cannot provide template arguments to 'completions' command")
             }
             None => bail!("Cannot provide template arguments to an unknown command"),
         };
