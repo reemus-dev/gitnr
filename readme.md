@@ -21,13 +21,17 @@ gitnr search
 ## Table of Contents
 
 - [Installation](#install--update)
-    - [Linux & Mac](#linux--mac)
-    - [Windows](#windows)
-    - [Cargo](#cargo)
-    - [Cargo Binstall](#cargo-binstall)
-    - [Binary Download](#binary-download)
-    - [NetBSD](#NetBSD)
-    - [From Source](#from-source)
+    - [Package Managers](#package-managers)
+        - [Homebrew (macOS / Linux)](#homebrew-macos--linux)
+        - [Cargo](#cargo)
+        - [Cargo Binstall](#cargo-binstall)
+        - [NetBSD](#netbsd)
+    - [Install Scripts](#install-scripts)
+        - [Linux & macOS](#linux--macos)
+        - [Windows](#windows)
+    - [Manual Install](#manual-install)
+        - [Binary Download](#binary-download)
+        - [From Source](#from-source)
 - [Usage](#usage)
     - [Create](#create)
     - [Search](#search)
@@ -36,7 +40,42 @@ gitnr search
 
 ## Install & Update
 
-### Linux & Mac
+### Package Managers
+
+#### Homebrew (macOS / Linux)
+
+Install the latest version using Homebrew with the command below.
+
+```sh
+brew install gitnr
+```
+
+#### Cargo
+
+Install and compile the latest version from crates.io with the command below.
+
+```sh
+cargo install gitnr
+```
+
+#### Cargo Binstall
+
+Install the binary directly using `cargo-binstall`.
+
+```sh
+cargo-binstall gitnr
+```
+
+#### NetBSD
+
+On NetBSD a pre-compiled binary is available from the official repositories. To install it, simply run:
+```sh
+pkgin install gitnr
+```
+
+### Install Scripts
+
+#### Linux & macOS
 
 Run any of the commands below in your terminal to get the latest version of `gitnr`.
 
@@ -57,7 +96,7 @@ _On Linux this defaults to `$HOME/.local/bin` and on macOS to `$HOME/bin`. The s
 curl -s https://raw.githubusercontent.com/reemus-dev/gitnr/main/scripts/install.sh | bash -s -- -d <dir>
 ```
 
-### Windows
+#### Windows
 
 Run the command below in a PowerShell terminal to install the latest version of `gitnr`.
 
@@ -65,34 +104,13 @@ Run the command below in a PowerShell terminal to install the latest version of 
 Set-ExecutionPolicy Unrestricted -Scope Process; iex (iwr "https://raw.githubusercontent.com/reemus-dev/gitnr/main/scripts/install.ps1").Content
 ```
 
-### Cargo
+### Manual Install
 
-Install and compile the latest version from crates.io with the command below.
-
-```sh
-cargo install gitnr
-```
-
-### Cargo Binstall
-
-Install the binary directly using `cargo-binstall`.
-
-```sh
-cargo-binstall gitnr
-```
-
-### Binary Download
+#### Binary Download
 
 See the [releases page](https://github.com/reemus-dev/gitnr/releases) to download a binary and then add it to a directory in your system path.
 
-### NetBSD
-
-On NetBSD a pre-compiled binary is available from the official repositories. To install it, simply run:
-```sh
-pkgin install gitnr
-```
-
-### From Source
+#### From Source
 
 ```sh
 git clone --depth=1 github.com/reemus-dev/gitnr
