@@ -81,17 +81,17 @@ impl GithubTemplates {
 
             // Root template
             if !path.contains('/') {
-                let template = Template::new(&format!("gh:{}", path))?;
+                let template = Template::new(&format!("gh:{path}"))?;
                 root.push(template);
             }
             // Global template
             else if let Some(path) = path.strip_prefix("Global/") {
-                let template = Template::new(&format!("ghg:{}", path))?;
+                let template = Template::new(&format!("ghg:{path}"))?;
                 global.push(template);
             }
             // Community template
             else if let Some(path) = path.strip_prefix("community/") {
-                let template = Template::new(&format!("ghc:{}", path))?;
+                let template = Template::new(&format!("ghc:{path}"))?;
                 community.push(template);
             }
         }
@@ -165,24 +165,23 @@ pub struct TreeItem {
 /// Get the GitHub tree for a repository
 pub fn gh_tree(owner: &str, repo: &str, branch: &str, recursive: bool) -> Result<Tree> {
     let mut url = format!(
-        "{}/repos/{owner}/{repo}/git/trees/{branch}",
-        GITHUB_API_ENDPOINT
+        "{GITHUB_API_ENDPOINT}/repos/{owner}/{repo}/git/trees/{branch}"
     );
 
     if recursive {
-        url = format!("{}?recursive=true", url)
+        url = format!("{url}?recursive=true")
     }
 
     let res = http()
         .get(&url)
         .set("Accept", GITHUB_API_ACCEPT)
         .call()
-        .with_context(|| format!("GitHub API error when fetching repo tree\n\n{}", url))?
+        .with_context(|| format!("GitHub API error when fetching repo tree\n\n{url}"))?
         .into_string()
-        .with_context(|| format!("Failed to parse GitHub API response to string\n\n{}", url))?;
+        .with_context(|| format!("Failed to parse GitHub API response to string\n\n{url}"))?;
 
     let parsed = serde_json::from_str(&res)
-        .with_context(|| format!("Failed to parse GitHub API response to JSON\n\n{}", url))?;
+        .with_context(|| format!("Failed to parse GitHub API response to JSON\n\n{url}"))?;
 
     Ok(parsed)
 }

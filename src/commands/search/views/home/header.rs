@@ -10,7 +10,7 @@ use ratatui::{text, Frame};
 fn create_tabs<'a>(tab_titles: Vec<String>, list_tab: usize) -> anyhow::Result<Tabs<'a>> {
     let items = tab_titles
         .into_iter()
-        .map(|t| Line::from(format!(" {} ", t)))
+        .map(|t| Line::from(format!(" {t} ")))
         .collect::<Vec<Line>>();
     let block = Block::default()
         .borders(Borders::ALL)

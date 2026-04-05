@@ -19,7 +19,7 @@ You can also browse the available templates at the GitHub &
 TopTal collections using the `search` command.";
 
 #[derive(Parser, Debug)]
-#[command(author, version, about, long_about = LONG_ABOUT, arg_required_else_help = true)]
+#[command(author, version, about, long_about = LONG_ABOUT)]
 pub struct Cli {
     /// Refresh the cache (templates are cached for 1h)
     #[arg(short = 'r', long = "refresh", global = true)]
