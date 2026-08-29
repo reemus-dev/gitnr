@@ -1,12 +1,11 @@
 use crate::template::list::TemplateList;
 use anyhow::{anyhow, Result};
-use copypasta::{ClipboardContext, ClipboardProvider};
+use arboard::Clipboard;
 use once_cell::sync::Lazy;
 use ratatui::widgets::ScrollbarState;
 use std::sync::Mutex;
 
-static CLIPBOARD: Lazy<Mutex<ClipboardContext>> =
-    Lazy::new(|| Mutex::new(ClipboardContext::new().unwrap()));
+static CLIPBOARD: Lazy<Mutex<Clipboard>> = Lazy::new(|| Mutex::new(Clipboard::new().unwrap()));
 
 /// The current state of the preview view
 #[derive(Debug, Clone)]
@@ -115,7 +114,7 @@ impl UIStatePreview {
         let mut clip = CLIPBOARD
             .lock()
             .map_err(|_| anyhow!("Failed to lock clipboard"))?;
-        clip.set_contents(content)
+        clip.set_text(content)
             .map_err(|_| anyhow!("Failed to set clipboard content"))
     }
 

@@ -16,7 +16,8 @@ categories = ["development-tools", "command-line-utilities"]
 anyhow = "1.0.89"
 clap = { version = "4.5.20", features = ["derive"] }
 clap_complete = "^4.5"
-copypasta = "0.8.2"
+# image-data (default features) is dropped since gitnr only ever copies text.
+arboard = { version = "3.6.1", default-features = false, features = ["wayland-data-control"] }
 dirs = "5.0.1"
 human-panic = "2.0.2"
 indoc = "2.0.5"
