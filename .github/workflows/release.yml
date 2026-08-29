@@ -2,8 +2,8 @@
 #  https://github.com/open-contracting/cardinal-rs/blob/main/.github/workflows/release.yml
 
 name: Test & Release
-# The name is the PR title, "Release vX.X.X" on tag push, or the commit message
-run-name: ${{ github.event_name == 'pull_request' && format('PR {0} - {1}', github.event.pull_request.number, github.event.pull_request.title) || github.ref_type == 'tag' && format('Release - {0}', github.ref_name) || github.event.head_commit.message }}
+# The name is the PR title, "Release vX.X.X" on tag push, or the tested branch
+run-name: ${{ github.event_name == 'pull_request' && format('PR {0} - {1}', github.event.pull_request.number, github.event.pull_request.title) || github.ref_type == 'tag' && format('Release - {0}', github.ref_name) || format('Test - {0}', github.ref_name) }}
 on:
   pull_request:
     branches: [ "main" ]
