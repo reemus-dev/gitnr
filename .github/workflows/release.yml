@@ -2,9 +2,11 @@
 #  https://github.com/open-contracting/cardinal-rs/blob/main/.github/workflows/release.yml
 
 name: Test & Release
-# The name is either "Release vX.X.X" on tag push or the commit message
-run-name: ${{ github.ref_name != 'main' && format('Release - {0}', github.ref_name) || github.event.head_commit.message }}
+# The name is the PR title, "Release vX.X.X" on tag push, or the commit message
+run-name: ${{ github.event_name == 'pull_request' && format('PR {0} - {1}', github.event.pull_request.number, github.event.pull_request.title) || github.ref_type == 'tag' && format('Release - {0}', github.ref_name) || github.event.head_commit.message }}
 on:
+  pull_request:
+    branches: [ "main" ]
   push:
     branches: [ "main" ]
     tags: [ "v[0-9]+.[0-9]+.[0-9]+" ]
@@ -25,7 +27,7 @@ jobs:
 
       - name: Setup Cache
         uses: Swatinem/rust-cache@v2
-        if: github.ref_name == 'main' # Caching doesn't work on tags, so skip it
+        if: github.ref_type != 'tag' # Caching doesn't work on tags, so skip it
         with:
           cache-targets: "true"
           cache-on-failure: "true"
@@ -41,7 +43,7 @@ jobs:
     name: Setup
     needs: test
     runs-on: ubuntu-latest
-    if: github.ref_name != 'main' # Only run on tag push
+    if: startsWith(github.ref, 'refs/tags/v') # Only run on tag push
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -54,7 +56,7 @@ jobs:
     name: Build
     needs: setup
     runs-on: ${{ matrix.runner }}
-    if: github.ref_name != 'main' # Only run on tag push
+    if: startsWith(github.ref, 'refs/tags/v') # Only run on tag push
     strategy:
       matrix:
         include:
@@ -110,7 +112,7 @@ jobs:
     name: Release
     needs: build
     runs-on: ubuntu-latest
-    if: github.ref_name != 'main' # Only run on tag push
+    if: startsWith(github.ref, 'refs/tags/v') # Only run on tag push
     steps:
       - name: Checkout
         uses: actions/checkout@v3
