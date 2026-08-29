@@ -195,27 +195,27 @@ pub fn handle_mouse_events(event: MouseEvent, app: &mut UIState) -> Result<()> {
             // Select a template with left-click
             MouseEventKind::Down(MouseButton::Left) => app.list_select(),
             // Scrolling on the collection templates list
-            MouseEventKind::ScrollUp => {
-                if now.duration_since(app.last_scroll_time) > Duration::from_millis(15) {
-                    app.list_previous(if is_shift || is_alt {
-                        Some(10)
-                    } else {
-                        Some(1)
-                    });
-                    app.last_scroll_time = now;
-                }
+            MouseEventKind::ScrollUp
+                if now.duration_since(app.last_scroll_time) > Duration::from_millis(15) =>
+            {
+                app.list_previous(if is_shift || is_alt {
+                    Some(10)
+                } else {
+                    Some(1)
+                });
+                app.last_scroll_time = now;
             }
             // Scrolling on the collection templates list
-            MouseEventKind::ScrollDown => {
-                if now.duration_since(app.last_scroll_time) > Duration::from_millis(15) {
-                    app.list_next(if is_shift || is_alt {
-                        println!("Scrolling {is_shift} {is_alt}");
-                        Some(10)
-                    } else {
-                        Some(1)
-                    });
-                    app.last_scroll_time = now;
-                }
+            MouseEventKind::ScrollDown
+                if now.duration_since(app.last_scroll_time) > Duration::from_millis(15) =>
+            {
+                app.list_next(if is_shift || is_alt {
+                    println!("Scrolling {is_shift} {is_alt}");
+                    Some(10)
+                } else {
+                    Some(1)
+                });
+                app.last_scroll_time = now;
             }
             _ => {}
         }
